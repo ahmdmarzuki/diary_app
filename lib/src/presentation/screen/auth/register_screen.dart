@@ -1,7 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:diary_app/src/presentation/screen/auth/profile_form.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,6 +17,77 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool isLoading = false;
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmationController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    passwordConfirmationController.dispose();
+
+    super.dispose();
+  }
+
+  Future signUp() async {
+    if (passwordController.text.trim() ==
+        passwordConfirmationController.text.trim()) {
+      try {
+        isLoading = true;
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text.trim(),
+                password: passwordController.text.trim())
+            .whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Color(0xFF38ABBE),
+                    content: CostumText(
+                      text: "Register Success",
+                      color: whiteColor,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ));
+
+        Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileForm()),
+                    (route) => false);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: allertColor,
+              content: CostumText(
+                text: "Email Already in Use",
+                color: whiteColor,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: allertColor,
+          content: CostumText(
+            text: "Wrong Password",
+            color: whiteColor,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+
+      isLoading = false;
+    }
+  }
+
   Widget emailInput() {
     return Container(
       height: 50,
@@ -23,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Expanded(
               child: TextFormField(
+                  controller: emailController,
                   style: GoogleFonts.poppins(),
                   decoration: InputDecoration.collapsed(
                       hintText: 'Email Address',
@@ -46,6 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Expanded(
               child: TextFormField(
+                  controller: passwordController,
                   style: GoogleFonts.poppins(),
                   decoration: InputDecoration.collapsed(
                       hintText: 'Password', hintStyle: GoogleFonts.poppins())),
@@ -68,6 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Expanded(
               child: TextFormField(
+                  controller: passwordConfirmationController,
                   style: GoogleFonts.poppins(),
                   decoration: InputDecoration.collapsed(
                       hintText: 'Password Confirmation',
@@ -95,17 +175,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget registerButton() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        if (emailController.text != "" &&
+            passwordController.text != "" &&
+            passwordConfirmationController.text != "") {
+          signUp();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: allertColor,
+              content: CostumText(
+                text: "Fill Correctly",
+                color: whiteColor,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+
+        // Future.delayed(const Duration(seconds: 3), () {
+        //   setState(() {
+        //     if (emailController.text.trim() != "" ||
+        //         passwordController.text.trim() != "") {
+        //       if (passwordController == passwordConfirmationController) {
+        //         isLoading = false;
+        //       }
+        //     }
+        //   });
+        // });
+      },
       child: Container(
         height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), color: accentColor),
+            borderRadius: BorderRadius.circular(12),
+            color: isLoading ? accentDarkColor : accentColor),
         child: Center(
-            child: CostumText(
-          text: "Register",
-          color: whiteColor,
-          fontSize: 18,
+            child: Stack(
+          children: [
+            CostumText(
+              text: "Register",
+              color: whiteColor,
+              fontSize: 18,
+            ),
+            isLoading ? const CircularProgressIndicator() : const SizedBox()
+          ],
         )),
       ),
     );
@@ -151,115 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   backgroundColor: secondaryColor,
                   context: context,
                   builder: (context) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                      height: MediaQuery.of(context).size.height,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 12),
-                              height: 6,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(3)),
-                            ),
-                          ),
-                          SizedBox(height: defaultMargin),
-                          CostumText(
-                            text: "Welcome Back",
-                            color: blackColor,
-                            fontSize: 18,
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 50,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: blackColor.withOpacity(.1),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                        style: GoogleFonts.poppins(),
-                                        decoration: InputDecoration.collapsed(
-                                            hintText: 'Email Address',
-                                            hintStyle: GoogleFonts.poppins())),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 50,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: blackColor.withOpacity(.1),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                        style: GoogleFonts.poppins(),
-                                        decoration: InputDecoration.collapsed(
-                                            hintText: 'password',
-                                            hintStyle: GoogleFonts.poppins())),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              height: 50,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: accentColor),
-                              child: Center(
-                                  child: CostumText(
-                                text: "Login",
-                                color: whiteColor,
-                                fontSize: 18,
-                              )),
-                            ),
-                          ),
-                          SizedBox(height: 28),
-                          Stack(children: [
-                            const Divider(thickness: 2),
-                            Center(
-                              child: Container(
-                                height: 20,
-                                width: 40,
-                                color: secondaryColor,
-                                child: Center(
-                                    child: CostumText(
-                                        text: "or", color: blackColor)),
-                              ),
-                            )
-                          ]),
-                          SizedBox(height: 28),
-                          Center(
-                            child: Image.asset(
-                              'assets/icon_google.png',
-                              width: 30,
-                            ),
-                          )
-                        ],
-                      ),
-                    );
+                    return LoginScreen();
                   });
             },
             child: CostumText(text: "Login", color: accentColor)),
@@ -270,35 +276,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: true,
       backgroundColor: primaryColor,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CostumText(
-              text: "Getting Started",
-              color: whiteColor,
-              fontSize: 28,
-              fontWeight: light,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 50),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CostumText(
+                  text: "Getting Started",
+                  color: whiteColor,
+                  fontSize: 28,
+                  fontWeight: light,
+                ),
+                const SizedBox(height: 90),
+                emailInput(),
+                const SizedBox(height: 16),
+                passwordInput(),
+                const SizedBox(height: 16),
+                confirmPasswordInput(),
+                const SizedBox(height: 50),
+                alreadyHaveAnAccount(),
+                const SizedBox(height: 12),
+                registerButton(),
+                const SizedBox(height: 28),
+                divider(),
+                const SizedBox(height: 28),
+                googleButton(),
+              ],
             ),
-            SizedBox(height: 90),
-            emailInput(),
-            const SizedBox(height: 16),
-            passwordInput(),
-            const SizedBox(height: 16),
-            confirmPasswordInput(),
-            const SizedBox(height: 50),
-            alreadyHaveAnAccount(),
-            const SizedBox(height: 12),
-            registerButton(),
-            const SizedBox(height: 28),
-            divider(),
-            const SizedBox(height: 28),
-            googleButton(),
-          ],
+          ),
         ),
       ),
     );

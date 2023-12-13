@@ -1,3 +1,4 @@
+import 'package:diary_app/src/data/datasource/user_datasource.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int navIndex = 0;
+  // final UserDatasource user = UserDatasource().userData;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
         toolbarHeight: 87,
         backgroundColor: primaryColor,
         title: CostumText(
-          text: "Hello, Ahmad",
+          text: "Hello,",
           color: whiteColor,
           fontWeight: light,
         ),

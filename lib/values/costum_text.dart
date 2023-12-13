@@ -6,6 +6,7 @@ class CostumText extends StatelessWidget {
   final Color color;
   final double? fontSize;
   final FontWeight? fontWeight;
+  final TextAlign? textAlign;
   final TextOverflow? textOverflow;
   const CostumText({
     super.key,
@@ -14,6 +15,7 @@ class CostumText extends StatelessWidget {
     this.fontSize,
     this.fontWeight,
     this.textOverflow = TextOverflow.ellipsis,
+    this.textAlign = TextAlign.left,
   });
 
   @override
@@ -23,6 +25,7 @@ class CostumText extends StatelessWidget {
       style: GoogleFonts.poppins(
           fontSize: fontSize, fontWeight: fontWeight, color: color),
       overflow: textOverflow,
+      textAlign: textAlign,
     );
   }
 }
