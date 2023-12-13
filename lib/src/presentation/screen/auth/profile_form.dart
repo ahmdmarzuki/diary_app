@@ -1,4 +1,4 @@
-import 'package:diary_app/src/data/services/auth_service.dart';
+import 'package:diary_app/src/data/repository/auth_repository.dart';
 import 'package:diary_app/src/presentation/screen/home/main_nav.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
@@ -15,7 +15,7 @@ class ProfileForm extends StatefulWidget {
 
 class _ProfileFormState extends State<ProfileForm> {
   final email = FirebaseAuth.instance.currentUser!.email!;
-  final AuthService authService = AuthService();
+  final AuthRepository authService = AuthRepository();
 
   bool isMale = true;
   late String gender = isMale ? "Male" : "Female";
@@ -41,7 +41,7 @@ class _ProfileFormState extends State<ProfileForm> {
     try {
       isLoading = true;
 
-      await authService.addUsers(uid, email, firstNameController.text.trim(),
+      await authService.signUp(uid, email, firstNameController.text.trim(),
           lastNameController.text.trim(), gender);
     } catch (e) {
       print('Error at Profile form: ' + e.toString());

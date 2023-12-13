@@ -7,5 +7,5 @@ final user = FirebaseAuth.instance.currentUser!;
 final String currentUser = user.uid;
 
 class UserDatasource {
-  final userData = db.collection('users').where;
+  final profileCollection = db.collection('users').doc(currentUser).collection('profile');
 }
