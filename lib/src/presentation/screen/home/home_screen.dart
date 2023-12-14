@@ -1,4 +1,3 @@
-import 'package:diary_app/src/data/datasource/user_datasource.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';

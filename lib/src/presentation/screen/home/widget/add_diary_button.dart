@@ -1,4 +1,4 @@
-import 'package:diary_app/src/presentation/screen/diary/add_diary_screen.dart';
+import 'package:diary_app/src/presentation/screen/diary/write_diary_screen.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class AddDiaryButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const AddDiaryScreen(),
+            builder: (context) => WriteDiaryScreen(),
           ),
         );
       },

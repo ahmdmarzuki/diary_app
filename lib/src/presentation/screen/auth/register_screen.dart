@@ -54,15 +54,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ));
 
         Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfileForm()),
-                    (route) => false);
+            context,
+            MaterialPageRoute(builder: (context) => const ProfileForm()),
+            (route) => false);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'email-already-in-use') {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: allertColor,
+              backgroundColor: alertColor,
               content: CostumText(
                 text: "Email Already in Use",
                 color: whiteColor,
@@ -75,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: allertColor,
+          backgroundColor: alertColor,
           content: CostumText(
             text: "Wrong Password",
             color: whiteColor,
@@ -183,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: allertColor,
+              backgroundColor: alertColor,
               content: CostumText(
                 text: "Fill Correctly",
                 color: whiteColor,

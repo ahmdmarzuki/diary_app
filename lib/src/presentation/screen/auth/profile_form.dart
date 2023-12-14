@@ -1,4 +1,4 @@
-import 'package:diary_app/src/data/services/auth_service.dart';
+import 'package:diary_app/src/core/services/auth_service.dart';
 import 'package:diary_app/src/presentation/screen/home/main_nav.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
@@ -167,7 +167,7 @@ class _ProfileFormState extends State<ProfileForm> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: allertColor,
+              backgroundColor: alertColor,
               content: CostumText(
                 text: "Fill Correctly",
                 color: whiteColor,
