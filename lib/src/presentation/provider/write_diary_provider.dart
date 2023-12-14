@@ -1,9 +1,9 @@
-
 import 'package:diary_app/src/core/model/diary_model.dart';
 import 'package:diary_app/src/core/repository/diary_repository_provider.dart';
 import 'package:diary_app/src/presentation/provider/loading_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 final addDiaryModelProvider =
     ChangeNotifierProvider((ref) => WriteDiaryModelProvider(ref.read));
@@ -38,7 +38,7 @@ class WriteDiaryModelProvider extends ChangeNotifier {
 
   bool get enabled => title.isNotEmpty && content.isNotEmpty;
 
-  DiaryRepository get _diaryRepository => _reader(diaryRepositortProvider);
+  DiaryRepository get _diaryRepository => _reader(diaryRepositoryProvider);
 
   Future<void> writeDiary() async {
     final updated = initial.copyWith(

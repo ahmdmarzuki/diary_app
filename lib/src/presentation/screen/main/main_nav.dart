@@ -1,41 +1,37 @@
-import 'package:diary_app/src/presentation/screen/home/brain_storm.dart';
-import 'package:diary_app/src/presentation/screen/home/calendar_screen.dart';
-import 'package:diary_app/src/presentation/screen/home/home_screen.dart';
-import 'package:diary_app/src/presentation/screen/home/profile_screen.dart';
-import 'package:diary_app/src/presentation/screen/home/widget/add_gallery_button.dart';
+import 'package:diary_app/src/presentation/provider/states/main_nav/main_nav_notifier.dart';
+import 'package:diary_app/src/presentation/screen/diary/widget/add_diary_button.dart';
+import 'package:diary_app/src/presentation/screen/diary/widget/add_gallery_button.dart';
+import 'package:diary_app/src/presentation/screen/main/main_feature/brain_storm/brain_storm.dart';
+import 'package:diary_app/src/presentation/screen/main/main_feature/calendar/calendar_screen.dart';
+import 'package:diary_app/src/presentation/screen/main/main_feature/home/home_screen.dart';
+import 'package:diary_app/src/presentation/screen/main/main_feature/profile/profile_screen.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'widget/add_diary_button.dart';
 
-class MainNav extends StatefulWidget {
+class MainNav extends ConsumerStatefulWidget {
   const MainNav({super.key});
 
   @override
-  State<MainNav> createState() => _MainNavState();
+  ConsumerState<MainNav> createState() => _MainNavState();
 }
 
-class _MainNavState extends State<MainNav> {
-  int currentIndex = 0;
-
-  Widget body() {
-    switch (currentIndex) {
-      case 0:
-        return const HomeScreen();
-      case 1:
-        return const BrainStormScreen();
-      case 2:
-        return const CalendarScreen();
-      case 3:
-        return const ProfileScreen();
-      default:
-        return const HomeScreen();
-    }
-  }
+class _MainNavState extends ConsumerState<MainNav> {
+  // list item dalam nav bar
+  static final List<Widget> _widgetOption = <Widget>[
+    const HomeScreen(),
+    const BrainStormScreen(),
+    const CalendarScreen(),
+    const ProfileScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    // ngambil data dari navProvider
+    var navIndex = ref.watch(mainNavProvider).index;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -65,7 +61,7 @@ class _MainNavState extends State<MainNav> {
                         color: blackColor,
                         fontSize: 18,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       const AddDiaryButton(),
                       const SizedBox(height: 20),
                       const AddGalleryButton()
@@ -77,13 +73,12 @@ class _MainNavState extends State<MainNav> {
         child: const Icon(Icons.add, size: 36),
       ),
       bottomNavigationBar: BottomNavigationBar(
+          currentIndex: navIndex,
           showUnselectedLabels: false,
           showSelectedLabels: false,
           elevation: 0,
           onTap: (value) {
-            setState(() {
-              currentIndex = value;
-            });
+            ref.read(mainNavProvider.notifier).onIndexChanged(value);
           },
           items: [
             BottomNavigationBarItem(
@@ -93,7 +88,7 @@ class _MainNavState extends State<MainNav> {
                   width: 30,
                   child: Image.asset(
                     'assets/icon_home.png',
-                    color: currentIndex == 0 ? blackColor : primaryColor,
+                    color: navIndex == 0 ? blackColor : primaryColor,
                   ),
                 ),
                 label: 'Home'),
@@ -102,7 +97,7 @@ class _MainNavState extends State<MainNav> {
                   height: 30,
                   width: 30,
                   child: Image.asset('assets/icon_chat.png',
-                      color: currentIndex == 1 ? blackColor : primaryColor),
+                      color: navIndex == 1 ? blackColor : primaryColor),
                 ),
                 label: 'Brain Storm'),
             BottomNavigationBarItem(
@@ -110,7 +105,7 @@ class _MainNavState extends State<MainNav> {
                   height: 30,
                   width: 30,
                   child: Image.asset('assets/icon_calendar.png',
-                      color: currentIndex == 2 ? blackColor : primaryColor),
+                      color: navIndex == 2 ? blackColor : primaryColor),
                 ),
                 label: 'Calendar'),
             BottomNavigationBarItem(
@@ -118,11 +113,11 @@ class _MainNavState extends State<MainNav> {
                   height: 30,
                   width: 30,
                   child: Image.asset('assets/icon_profile.png',
-                      color: currentIndex == 3 ? blackColor : primaryColor),
+                      color: navIndex == 3 ? blackColor : primaryColor),
                 ),
                 label: 'Profile'),
           ]),
-      body: body(),
+      body: _widgetOption[navIndex],
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:diary_app/src/presentation/screen/auth/profile_form.dart';
 import 'package:diary_app/src/presentation/screen/auth/register_screen.dart';
-import 'package:diary_app/src/presentation/screen/home/main_nav.dart';
+import 'package:diary_app/src/presentation/screen/main/main_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

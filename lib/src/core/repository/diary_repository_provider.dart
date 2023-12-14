@@ -4,13 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final user = FirebaseAuth.instance.currentUser!;
-final diaryRepositortProvider = Provider((ref) => DiaryRepository());
+final diaryRepositoryProvider = Provider((ref) => DiaryRepository());
 
 class DiaryRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String currentUser = user.uid;
 
-  Future<void> writeDiary(DiaryModel diary) async{
+  Future<void> writeDiary(DiaryModel diary) async {
     await _firestore
         .collection('users')
         .doc(currentUser)
@@ -18,4 +18,13 @@ class DiaryRepository {
         .doc(diary.id.isEmpty ? null : diary.id)
         .set(diary.toMap(), SetOptions(merge: true));
   }
+
+  Stream<List<DiaryModel>> get diaryStream => _firestore
+      .collection('users')
+      .doc(currentUser)
+      .collection('diary')
+      .orderBy('createAt', descending: true)
+      .snapshots()
+      .map((event) =>
+          event.docs.map((e) => DiaryModel.fromFirestore(e)).toList());
 }
