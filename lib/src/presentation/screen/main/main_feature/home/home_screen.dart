@@ -1,7 +1,7 @@
 import 'package:diary_app/src/presentation/provider/diary_provider.dart';
 import 'package:diary_app/src/presentation/provider/states/home_nav/home_notifier.dart';
 import 'package:diary_app/src/presentation/screen/main/main_feature/home/mood_bar.dart';
-import 'package:diary_app/src/presentation/screen/main/main_feature/home/my_diary_page.dart';
+import 'package:diary_app/src/presentation/screen/diary/my_diary_page.dart';
 import 'package:diary_app/src/presentation/screen/main/main_feature/home/to_do_list_page.dart';
 import 'package:diary_app/src/presentation/screen/main/main_feature/home/weather_indicator.dart';
 import 'package:diary_app/src/presentation/screen/main/main_feature/home/widget/my_diary_navigation.dart';
@@ -25,13 +25,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // final diaryAsync = ref.watch(diaryProvider);
-    // Widget myDiaryNav() {
-    //   return
-    // }
-
-    // Widget toDoListNav() {
-    //   return
-    // }
 
     var currentIndex = ref.watch(homeNavProvider).index;
 

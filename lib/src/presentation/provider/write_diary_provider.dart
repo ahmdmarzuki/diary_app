@@ -4,8 +4,7 @@ import 'package:diary_app/src/presentation/provider/loading_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-final addDiaryModelProvider =
+final writeDiaryModelProvider =
     ChangeNotifierProvider((ref) => WriteDiaryModelProvider(ref.read));
 
 // ChangeNotifierProvider((ref) => AddDiaryModelProvider(ref.read));
@@ -16,7 +15,13 @@ class WriteDiaryModelProvider extends ChangeNotifier {
   final _reader;
   WriteDiaryModelProvider(this._reader);
 
-  DiaryModel initial = DiaryModel.empty();
+  DiaryModel? _initial = DiaryModel.empty();
+
+  DiaryModel get initial => _initial??DiaryModel.empty().copyWith(createdAt: DateTime.now());
+
+  set initial(DiaryModel initial) {
+    _initial = initial;
+  }
 
   bool get edit => initial.id.isNotEmpty;
 
@@ -53,5 +58,11 @@ class WriteDiaryModelProvider extends ChangeNotifier {
       _loading.stop();
       return Future.error("Something error");
     }
+  }
+
+  void clear(){
+    _title = null;
+    _content = null;
+    initial = DiaryModel.empty();
   }
 }

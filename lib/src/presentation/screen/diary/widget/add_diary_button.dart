@@ -1,23 +1,26 @@
+import 'package:diary_app/src/presentation/provider/write_diary_provider.dart';
 import 'package:diary_app/src/presentation/screen/diary/write_diary_screen.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddDiaryButton extends StatelessWidget {
+class AddDiaryButton extends ConsumerWidget {
   const AddDiaryButton({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
+      onTap: () async{
+        await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WriteDiaryScreen(),
+            builder: (context) => const WriteDiaryScreen(),
           ),
         );
+        ref.read(writeDiaryModelProvider).clear();
       },
       child: Container(
         height: 96,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class DiaryModel {
   final String id;
@@ -18,7 +19,7 @@ class DiaryModel {
     return {
       'title': title,
       'content': content,
-      'createdAt': Timestamp.fromDate(createdAt),
+      'createdAt': DateTime.now(),
     };
   }
 
@@ -47,10 +48,6 @@ class DiaryModel {
 
   factory DiaryModel.empty() {
     return DiaryModel(
-      id: '',
-      title: '',
-      content: '',
-      createdAt: DateTime.now(),
-    );
+        id: '', title: '', content: '', createdAt: DateTime.now());
   }
 }

@@ -23,7 +23,7 @@ class DiaryRepository {
       .collection('users')
       .doc(currentUser)
       .collection('diary')
-      .orderBy('createAt', descending: true)
+      .orderBy('createdAt', descending: true)
       .snapshots()
       .map((event) =>
           event.docs.map((e) => DiaryModel.fromFirestore(e)).toList());

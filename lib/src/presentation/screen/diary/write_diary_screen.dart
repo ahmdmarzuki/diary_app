@@ -3,14 +3,15 @@ import 'package:diary_app/src/presentation/provider/write_diary_provider.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WriteDiaryScreen extends ConsumerWidget {
+  const WriteDiaryScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(addDiaryModelProvider);
+    final model = ref.watch(writeDiaryModelProvider);
     return LoadingLayer(
       child: Scaffold(
         backgroundColor: secondaryColor,
@@ -22,7 +23,7 @@ class WriteDiaryScreen extends ConsumerWidget {
               children: [
                 // SizedBox(height: 30),
                 TextFormField(
-                  // controller: titleController,
+                  maxLength: 20,
                   initialValue: model.title,
                   onChanged: (value) => model.title = value,
                   style: GoogleFonts.poppins(fontSize: 28),
@@ -34,7 +35,8 @@ class WriteDiaryScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  // controller: contentController,
+                  maxLines: null,
+                  maxLength: 200,
                   initialValue: model.content,
                   onChanged: (value) => model.content = value,
                   style: GoogleFonts.poppins(fontSize: 16),
@@ -46,14 +48,16 @@ class WriteDiaryScreen extends ConsumerWidget {
                 ),
                 const Spacer(),
                 InkWell(
-                  onTap: model.enabled?()async{
-                    try {
-                      await model.writeDiary();
-                      Navigator.pop(context);
-                    } catch (e) {
-                      print(e.toString());
-                    }
-                  }:null,
+                  onTap: model.enabled
+                      ? () async {
+                          try {
+                            await model.writeDiary();
+                            Navigator.pop(context);
+                          } catch (e) {
+                            print(e.toString());
+                          }
+                        }
+                      : null,
                   child: Container(
                     height: 50,
                     width: double.infinity,
