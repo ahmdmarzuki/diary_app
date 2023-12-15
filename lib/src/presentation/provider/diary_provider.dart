@@ -7,3 +7,4 @@ import 'package:diary_app/src/core/repository/diary_repository_provider.dart';
 final diaryProvider = StreamProvider<List<DiaryModel>>(
   (ref) => ref.read(diaryRepositoryProvider).diaryStream,
 );
+

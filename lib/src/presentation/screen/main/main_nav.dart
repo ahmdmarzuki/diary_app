@@ -73,6 +73,7 @@ class _MainNavState extends ConsumerState<MainNav> {
         child: const Icon(Icons.add, size: 36),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        
           currentIndex: navIndex,
           showUnselectedLabels: false,
           showSelectedLabels: false,

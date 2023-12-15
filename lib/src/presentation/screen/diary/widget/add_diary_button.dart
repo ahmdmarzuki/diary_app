@@ -14,13 +14,14 @@ class AddDiaryButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async{
+        ref.read(writeDiaryModelProvider).clear();
         await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const WriteDiaryScreen(),
           ),
         );
-        ref.read(writeDiaryModelProvider).clear();
+        
       },
       child: Container(
         height: 96,

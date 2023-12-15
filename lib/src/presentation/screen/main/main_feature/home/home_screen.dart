@@ -11,7 +11,6 @@ import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -36,6 +35,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
+        
         elevation: 0,
         toolbarHeight: 87,
         backgroundColor: primaryColor,
@@ -60,7 +60,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const WeatherIndicator(),
-
+          
                 const SizedBox(height: 40),
                 // Emoji button
                 Padding(
@@ -75,6 +75,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               clipBehavior: Clip.none,
               children: [
                 _mainContent[currentIndex],
+                Container(
+                  height: 50,
+                  width: double.infinity,
+                  color: secondaryColor,
+                ),
                 Positioned(
                   top: -29,
                   right: 0,
