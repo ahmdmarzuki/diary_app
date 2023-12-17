@@ -1,4 +1,4 @@
-import 'package:diary_app/src/presentation/provider/states/home_nav/home_notifier.dart';
+import 'package:diary_app/src/core/provider/states/home_nav/home_notifier.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';

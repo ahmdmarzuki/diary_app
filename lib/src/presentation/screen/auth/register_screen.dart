@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:diary_app/src/core/services/auth_service.dart';
 import 'package:diary_app/src/presentation/screen/auth/profile_form.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
@@ -19,10 +20,15 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
 
+  bool isPassHide = true;
+  bool isConfirmPassHide = true;
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmationController =
       TextEditingController();
+
+  // final AuthService authService = AuthService();
 
   @override
   void dispose() {
@@ -36,47 +42,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future signUp() async {
     if (passwordController.text.trim() ==
         passwordConfirmationController.text.trim()) {
-      try {
-        isLoading = true;
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text.trim(),
-                password: passwordController.text.trim())
-            .whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: Color(0xFF38ABBE),
-                    content: CostumText(
-                      text: "Register Success",
-                      color: whiteColor,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ));
+      if (passwordController.text.trim().length > 7) {
+        try {
+          isLoading = true;
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim());
 
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const ProfileForm()),
-            (route) => false);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'email-already-in-use') {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfileForm()),
+              (route) => false);
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: alertColor,
+              backgroundColor: Color(0xFF38ABBE),
               content: CostumText(
-                text: "Email Already in Use",
+                text: "Register Success",
                 color: whiteColor,
                 textAlign: TextAlign.center,
               ),
             ),
           );
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'email-already-in-use') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: alertColor,
+                content: CostumText(
+                  text: "Email Already in Use",
+                  color: whiteColor,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
         }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: CostumText(
+              text: "Password must contain at least 8 letter",
+              color: whiteColor,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: alertColor,
           content: CostumText(
-            text: "Wrong Password",
+            text: "Confirm your password correcly !",
             color: whiteColor,
             textAlign: TextAlign.center,
           ),
@@ -124,10 +143,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Expanded(
               child: TextFormField(
                   controller: passwordController,
+                  obscureText: isPassHide ? true : false,
                   style: GoogleFonts.poppins(),
                   decoration: InputDecoration.collapsed(
                       hintText: 'Password', hintStyle: GoogleFonts.poppins())),
             ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isPassHide = !isPassHide;
+                });
+              },
+              child: SizedBox(
+                height: 40,
+                width: 18,
+                child: isPassHide
+                    ? Image.asset(
+                        'assets/icon_eye_close.png',
+                        width: 18,
+                      )
+                    : Image.asset(
+                        'assets/icon_eye_open.png',
+                        width: 18,
+                      ),
+              ),
+            )
           ],
         ),
       ),
@@ -147,11 +187,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Expanded(
               child: TextFormField(
                   controller: passwordConfirmationController,
+                  obscureText: isConfirmPassHide ? true : false,
                   style: GoogleFonts.poppins(),
                   decoration: InputDecoration.collapsed(
                       hintText: 'Password Confirmation',
                       hintStyle: GoogleFonts.poppins())),
             ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isConfirmPassHide = !isConfirmPassHide;
+                });
+              },
+              child: SizedBox(
+                height: 40,
+                width: 18,
+                child: isConfirmPassHide
+                    ? Image.asset(
+                        'assets/icon_eye_close.png',
+                        width: 18,
+                      )
+                    : Image.asset(
+                        'assets/icon_eye_open.png',
+                        width: 18,
+                      ),
+              ),
+            )
           ],
         ),
       ),
@@ -191,17 +252,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         }
-
-        // Future.delayed(const Duration(seconds: 3), () {
-        //   setState(() {
-        //     if (emailController.text.trim() != "" ||
-        //         passwordController.text.trim() != "") {
-        //       if (passwordController == passwordConfirmationController) {
-        //         isLoading = false;
-        //       }
-        //     }
-        //   });
-        // });
       },
       child: Container(
         height: 50,
@@ -225,8 +275,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget googleButton() {
-    return InkWell(
-      onTap: () {},
+    return GestureDetector(
+      onTap: () async {},
       child: Container(
         height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -1,4 +1,4 @@
-import 'package:diary_app/src/presentation/provider/write_diary_provider.dart';
+import 'package:diary_app/src/core/provider/write_diary_provider.dart';
 import 'package:diary_app/src/presentation/screen/diary/write_diary_screen.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';

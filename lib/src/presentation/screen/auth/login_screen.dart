@@ -120,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Expanded(
                     child: TextFormField(
                         controller: passwordController,
+                        obscureText: true,
                         style: GoogleFonts.poppins(),
                         decoration: InputDecoration.collapsed(
                             hintText: 'password',

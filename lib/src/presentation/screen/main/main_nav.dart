@@ -1,4 +1,5 @@
-import 'package:diary_app/src/presentation/provider/states/main_nav/main_nav_notifier.dart';
+import 'package:diary_app/src/core/provider/states/main_nav/main_nav_notifier.dart';
+import 'package:diary_app/src/core/repository/user_repository.dart';
 import 'package:diary_app/src/presentation/screen/diary/widget/add_diary_button.dart';
 import 'package:diary_app/src/presentation/screen/diary/widget/add_gallery_button.dart';
 import 'package:diary_app/src/presentation/screen/main/main_feature/brain_storm/brain_storm.dart';
@@ -29,8 +30,10 @@ class _MainNavState extends ConsumerState<MainNav> {
 
   @override
   Widget build(BuildContext context) {
+    
     // ngambil data dari navProvider
     var navIndex = ref.watch(mainNavProvider).index;
+    
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(

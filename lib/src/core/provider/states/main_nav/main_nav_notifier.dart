@@ -1,4 +1,4 @@
-import 'package:diary_app/src/presentation/provider/states/main_nav/main_nav_state.dart';
+import 'package:diary_app/src/core/provider/states/main_nav/main_nav_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainNavNotifier extends StateNotifier<MainNavStates> {

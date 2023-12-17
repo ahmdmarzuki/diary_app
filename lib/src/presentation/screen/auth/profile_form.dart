@@ -43,14 +43,14 @@ class _ProfileFormState extends State<ProfileForm> {
 
       await authService.addUsers(uid, email, firstNameController.text.trim(),
           lastNameController.text.trim(), gender);
+
+      await authService.setDisplayName(firstNameController.text.trim());
     } catch (e) {
       print('Error at Profile form: ' + e.toString());
     }
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MainNav()));
   }
 
-  Widget firstNameIntput() {
+  Widget firstNameInput() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -77,7 +77,7 @@ class _ProfileFormState extends State<ProfileForm> {
     );
   }
 
-  Widget lastNameIntput() {
+  Widget lastNameInput() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -118,7 +118,9 @@ class _ProfileFormState extends State<ProfileForm> {
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                  color: isMale ? accentColor : blackColor.withOpacity(.2),
+                  color: isMale
+                      ? accentColor.withOpacity(.8)
+                      : blackColor.withOpacity(.2),
                   borderRadius: BorderRadius.circular(12)),
               child: Center(
                 child: CostumText(
@@ -142,7 +144,9 @@ class _ProfileFormState extends State<ProfileForm> {
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: !isMale ? accentColor : blackColor.withOpacity(.2),
+                color: !isMale
+                    ? accentColor.withOpacity(.8)
+                    : blackColor.withOpacity(.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
@@ -164,6 +168,10 @@ class _ProfileFormState extends State<ProfileForm> {
       onTap: () {
         if (firstNameController.text != "") {
           addUser();
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const MainNav()),
+              (route) => false);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -187,7 +195,7 @@ class _ProfileFormState extends State<ProfileForm> {
             child: Stack(
           children: [
             CostumText(
-              text: "Mulai Nulis",
+              text: "Lanjut !!!",
               color: whiteColor,
               fontSize: 18,
             ),
@@ -203,16 +211,25 @@ class _ProfileFormState extends State<ProfileForm> {
     return Scaffold(
         backgroundColor: secondaryColor,
         body: Container(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          padding: EdgeInsets.symmetric(
+              horizontal: defaultMargin, vertical: defaultMargin * 2),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              firstNameIntput(),
+              CostumText(
+                text: "Isi Profile",
+                color: blackColor,
+                fontSize: 28,
+                fontWeight: light,
+              ),
+              const SizedBox(height: 60),
+              firstNameInput(),
               const SizedBox(height: 20),
-              lastNameIntput(),
+              lastNameInput(),
               const SizedBox(height: 20),
               genderInput(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 60),
               addUserButton()
             ],
           ),

@@ -19,6 +19,15 @@ class DiaryRepository {
         .set(diary.toMap(), SetOptions(merge: true));
   }
 
+  Future<void> deleteDiary(DiaryModel diary) async {
+    await _firestore
+        .collection('users')
+        .doc(currentUser)
+        .collection('diary')
+        .doc(diary.id.isEmpty ? null : diary.id)
+        .delete();
+  }
+
   Stream<List<DiaryModel>> get diaryStream => _firestore
       .collection('users')
       .doc(currentUser)

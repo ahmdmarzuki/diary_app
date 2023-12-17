@@ -11,7 +11,7 @@ class ToDoList extends StatelessWidget {
         color: secondaryColor,
       ),
       child: const Center(
-        child: Text('ToDo List'),
+        child: Text('My gallery'),
       ),
     );
   }

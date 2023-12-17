@@ -1,5 +1,7 @@
-import 'package:diary_app/src/presentation/provider/diary_provider.dart';
-import 'package:diary_app/src/presentation/provider/states/home_nav/home_notifier.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diary_app/src/core/provider/diary_provider.dart';
+import 'package:diary_app/src/core/provider/states/home_nav/home_notifier.dart';
+import 'package:diary_app/src/core/repository/user_repository.dart';
 import 'package:diary_app/src/presentation/screen/main/main_feature/home/mood_bar.dart';
 import 'package:diary_app/src/presentation/screen/diary/my_diary_page.dart';
 import 'package:diary_app/src/presentation/screen/main/main_feature/home/to_do_list_page.dart';
@@ -8,6 +10,7 @@ import 'package:diary_app/src/presentation/screen/main/main_feature/home/widget/
 import 'package:diary_app/src/presentation/screen/main/main_feature/home/widget/to_do_list_navigation.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // final diaryAsync = ref.watch(diaryProvider);
-
+    final user = FirebaseAuth.instance.currentUser!;
     var currentIndex = ref.watch(homeNavProvider).index;
 
     final List<Widget> _mainContent = <Widget>[
@@ -35,20 +38,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
-        
+        automaticallyImplyLeading: false,
         elevation: 0,
         toolbarHeight: 87,
         backgroundColor: primaryColor,
         title: CostumText(
-          text: "Hello,",
+          text: "Hello, ${user.displayName}",
           color: whiteColor,
           fontWeight: light,
         ),
-        // actions: [
-        //   CircleAvatar(
-        //     child: Image.asset(''),
-        //   )
-        // ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +58,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const WeatherIndicator(),
-          
+
                 const SizedBox(height: 40),
                 // Emoji button
                 Padding(

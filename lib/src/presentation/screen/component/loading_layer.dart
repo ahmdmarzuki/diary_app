@@ -1,4 +1,4 @@
-import 'package:diary_app/src/presentation/provider/loading_provider.dart';
+import 'package:diary_app/src/core/provider/loading_provider.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

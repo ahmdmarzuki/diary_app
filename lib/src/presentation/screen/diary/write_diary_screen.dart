@@ -1,5 +1,5 @@
 import 'package:diary_app/src/presentation/screen/component/loading_layer.dart';
-import 'package:diary_app/src/presentation/provider/write_diary_provider.dart';
+import 'package:diary_app/src/core/provider/write_diary_provider.dart';
 import 'package:diary_app/src/presentation/screen/main/main_nav.dart';
 import 'package:diary_app/values/costum_text.dart';
 import 'package:diary_app/values/theme.dart';
@@ -36,18 +36,38 @@ class WriteDiaryScreen extends ConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Center(
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 12),
+                                  height: 6,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(3)),
+                                ),
+                              ),
+                              SizedBox(height: 40),
                               CostumText(
-                                text: "Yakin gak jadi nulis  T_T",
+                                text: "Yakin Pengen Hapus ?",
                                 color: blackColor,
-                                fontSize: 22,
-                                fontWeight: light,
+                                fontSize: 18,
+                                fontWeight: reguler,
                               ),
 
                               const Spacer(),
 
                               // delete button
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  model.deleteDiary();
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MainNav()),
+                                      (route) => false);
+                                  model.clear();
+                                },
                                 child: Container(
                                   height: 50,
                                   width: double.infinity,
@@ -74,12 +94,13 @@ class WriteDiaryScreen extends ConsumerWidget {
                                   height: 50,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: accentColor)),
+                                    color: accentColor.withOpacity(.8),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                   child: Center(
                                       child: CostumText(
                                     text: "Lanjut Nulis",
-                                    color: blackColor,
+                                    color: whiteColor,
                                     fontSize: 18,
                                   )),
                                 ),
@@ -94,7 +115,7 @@ class WriteDiaryScreen extends ConsumerWidget {
                   width: 50,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: alertColor),
+                      color: alertColor.withOpacity(.8)),
                   child: Center(
                       child: Image.asset(
                     'assets/icon_trash.png',
@@ -106,37 +127,52 @@ class WriteDiaryScreen extends ConsumerWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: InkWell(
-                  onTap: model.enabled
-                      ? () async {
-                          try {
-                            await model.writeDiary().whenComplete(() {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  dismissDirection: DismissDirection.up,
-                                  backgroundColor: successColor,
-                                  duration: const Duration(seconds: 1),
-                                  content: CostumText(
-                                    text: "Success Added",
-                                    color: whiteColor,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              );
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const MainNav()), (route) => false);
-                            });
-                            
-                          } catch (e) {
-                            print(e.toString());
-                          }
-                        }
-                      : null,
+                  onTap: () async {
+                    if (model.enabled) {
+                      try {
+                        await model.writeDiary().whenComplete(() {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              dismissDirection: DismissDirection.up,
+                              backgroundColor: successColor,
+                              duration: const Duration(seconds: 1),
+                              content: CostumText(
+                                text: "Success Updated",
+                                color: whiteColor,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainNav()),
+                              (route) => false);
+                        });
+                      } catch (e) {
+                        print(e.toString());
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: alertColor,
+                          duration: const Duration(seconds: 1),
+                          content: CostumText(
+                            text: "Fill Title and Content",
+                            color: whiteColor,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   child: Container(
                     height: 50,
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: accentColor),
+                        color: accentColor.withOpacity(.8)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

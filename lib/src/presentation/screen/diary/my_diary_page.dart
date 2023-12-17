@@ -1,4 +1,5 @@
-import 'package:diary_app/src/presentation/provider/diary_provider.dart';
+import 'package:diary_app/src/core/provider/diary_provider.dart';
+import 'package:diary_app/src/core/provider/write_diary_provider.dart';
 import 'package:diary_app/src/presentation/screen/diary/widget/diary_card.dart';
 import 'package:diary_app/values/theme.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class MyDiary extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final diaryAsync = ref.watch(diaryProvider);
+    final card = ref.read(writeDiaryModelProvider);
 
     return Expanded(
       child: SingleChildScrollView(
@@ -45,7 +47,7 @@ class MyDiary extends ConsumerWidget {
                                         ))
                                     .toList(),
                               ),
-                              diary.length > 3
+                              diary.length > 4
                                   ? const SeeAllButton()
                                   : diary.length == 1
                                       ? const SizedBox(
@@ -72,9 +74,13 @@ class MyDiary extends ConsumerWidget {
                         }
                       },
                       error: (e, s) => Center(child: Text("$e")),
-                      loading: () => const Center(
-                            child: CircularProgressIndicator(),
-                          )),
+                      loading: () => const SizedBox(
+                        height: 300,
+                        width: double.infinity,
+                        child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                      )),
                 ),
                 SizedBox(height: defaultMargin),
               ],

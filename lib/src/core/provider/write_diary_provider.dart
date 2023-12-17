@@ -1,6 +1,6 @@
 import 'package:diary_app/src/core/model/diary_model.dart';
 import 'package:diary_app/src/core/repository/diary_repository_provider.dart';
-import 'package:diary_app/src/presentation/provider/loading_provider.dart';
+import 'package:diary_app/src/core/provider/loading_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,6 +57,18 @@ class WriteDiaryModelProvider extends ChangeNotifier {
     } catch (e) {
       _loading.stop();
       return Future.error("Something error");
+    }
+  }
+
+  Future<void> deleteDiary()async{
+    final diary = initial;
+    _loading.start();
+    try {
+      await _diaryRepository.deleteDiary(diary);
+      _loading.end();
+    } catch (e) {
+      _loading.stop();
+      return Future.error("Error at delete");
     }
   }
 
