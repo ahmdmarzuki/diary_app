@@ -37,8 +37,12 @@ dependencies:
   google_fonts: ^6.1.0
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.2
-  bloc: ^8.1.2
+
   cloud_firestore: ^4.13.6
+  flutter_riverpod: ^2.4.9
+  equatable: ^2.0.5
+  intl: ^0.19.0
+  google_sign_in: ^6.1.6
 
 dev_dependencies:
   flutter_test:

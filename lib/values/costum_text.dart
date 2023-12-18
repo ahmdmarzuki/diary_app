@@ -8,6 +8,7 @@ class CostumText extends StatelessWidget {
   final FontWeight? fontWeight;
   final TextAlign? textAlign;
   final TextOverflow? textOverflow;
+
   const CostumText({
     super.key,
     required this.text,

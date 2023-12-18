@@ -9,7 +9,8 @@ Color accentColor = const Color(0xFF399FFE);
 Color accentDarkColor = const Color(0xFF276fb1);
 Color blackColor = const Color(0xFF000000);
 Color whiteColor = const Color(0xFFFFFFFF);
-Color allertColor = const Color(0xFFED6363);
+Color alertColor = const Color(0xFFED6363);
+Color successColor = const Color(0xFF38ABBE);
 
 FontWeight light = FontWeight.w300;
 FontWeight reguler = FontWeight.w400;
