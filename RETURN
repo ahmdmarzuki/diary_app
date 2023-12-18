@@ -1,0 +1,47 @@
+[33mcommit 15993223d3f06261096c96ca88fe0995e7dc2e96[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mriverpod[m[33m, [m[1;31morigin/riverpod[m[33m)[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Sun Dec 17 08:28:16 2023 +0800
+
+    add delete diary feature
+
+[33mcommit 69c463916258d99ab487bec95dab43796b91980e[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Fri Dec 15 10:31:29 2023 +0800
+
+    add diary empty, cancel writing, and logic on diary page
+
+[33mcommit aa690555a5192999964b3a72041e9ffb2b7b44ee[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Thu Dec 14 16:20:40 2023 +0800
+
+    add display page for diary
+
+[33mcommit d459356292c18f6f30188a2638b58b79171e88db[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Thu Dec 14 12:31:17 2023 +0800
+
+    riverpod for navigation & refactoring
+
+[33mcommit 01dfb8a049ed116f25f56bfcbb78dd299ccf381b[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Thu Dec 14 09:05:19 2023 +0800
+
+    riverpod for diary state
+
+[33mcommit 31b0086934329d2c8d40f4e78cbce7a8ed70a2d9[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Wed Dec 13 17:23:57 2023 +0800
+
+    add new diary
+
+[33mcommit 3fb9f0e4187a542a78f9b818e8240c00e1159a30[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Tue Dec 12 17:03:29 2023 +0800
+
+    add login & register screen
+
+[33mcommit 59793b2a69c7a69868bc8f2b4615306e19b939ef[m
+Author: AHMAD MARZUKI <ahmadmarzuki303@gmail.com>
+Date:   Tue Dec 12 13:55:13 2023 +0800
+
+    first commit
